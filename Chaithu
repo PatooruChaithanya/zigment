@@ -1,0 +1,149 @@
+import java.util.Scanner;
+
+public class UpdatedLeadScoring {
+
+    public static void main(String[] args) {
+       
+        Scanner scanner = new Scanner(System.in);
+
+       
+        System.out.println("Enter company size (1-50, 51-200, 201-1000, 1000+): ");
+        String companySize = scanner.nextLine();
+
+        System.out.println("Enter annual budget for SaaS solutions (<10k, 10k-50k, 50k-100k, >100k): ");
+        String budget = scanner.nextLine();
+
+        System.out.println("Enter industry (Technology-Finance, Healthcare, Retail, Other): ");
+        String industry = scanner.nextLine();
+
+        System.out.println("Enter urgency (Immediate, Short-term, Medium-term, Long-term): ");
+        String urgency = scanner.nextLine();
+
+        System.out.println("Enter your country or region (for time zone calculation): ");
+        String region = scanner.nextLine();
+
+       
+        if (companySize.isEmpty() || budget.isEmpty() || industry.isEmpty() || urgency.isEmpty()) {
+            System.out.println("Error: Some required fields are missing. Lead cannot be processed.");
+           
+            scanner.close();
+            return;
+        }
+
+       
+        int leadScore = calculateLeadScore(companySize, budget, industry, urgency);
+
+       
+        System.out.println("Lead Score: " + leadScore);
+
+       
+        if (leadScore > 150) {
+            System.out.println("High-value lead detected! Special handling required.");
+           
+        }
+
+       
+        adjustForTimeZone(region);
+
+       
+        if (leadScore > 70) {
+            System.out.println("This lead qualifies for a welcome email.");
+        } else {
+            System.out.println("This lead is added to the nurturing campaign.");
+        }
+
+       
+        scanner.close();
+    }
+
+   
+    public static int calculateLeadScore(String companySize, String budget, String industry, String urgency) {
+        int score = 0;
+
+       
+        switch (companySize) {
+            case "1-50":
+                score += 10;
+                break;
+            case "51-200":
+                score += 20;
+                break;
+            case "201-1000":
+                score += 40;
+                break;
+            case "1000+":
+                score += 50;
+                break;
+        }
+
+       
+        switch (budget) {
+            case "<10k":
+                score += 5;
+                break;
+            case "10k-50k":
+                score += 20;
+                break;
+            case "50k-100k":
+                score += 40;
+                break;
+            case ">100k":
+                score += 50;
+                break;
+        }
+
+        
+        switch (industry) {
+            case "Technology-Finance":
+                score += 40;
+                break;
+            case "Healthcare":
+                score += 30;
+                break;
+            case "Retail":
+                score += 20;
+                break;
+            case "Other":
+                score += 10;
+                break;
+        }
+
+       
+        switch (urgency) {
+            case "Immediate":
+                score += 50;
+                break;
+            case "Short-term":
+                score += 30;
+                break;
+            case "Medium-term":
+                score += 20;
+                break;
+            case "Long-term":
+                score += 10;
+                break;
+        }
+
+        return score;
+    }
+
+  
+    public static void adjustForTimeZone(String region) {
+        // For simplicity, we assume a region-based time zone adjustment
+        // This could be expanded to use an actual time zone library for conversion
+        switch (region.toLowerCase()) {
+            case "us":
+                System.out.println("Adjusting for US time zone.");
+                break;
+            case "europe":
+                System.out.println("Adjusting for European time zone.");
+                break;
+            case "asia":
+                System.out.println("Adjusting for Asian time zone.");
+                break;
+            default:
+                System.out.println("Adjusting for default time zone.");
+                break;
+        }
+    }
+}
